@@ -1,0 +1,8 @@
+Block { 
+    index
+    timestamp
+    data
+    prev_hash
+    nounce
+    hash
+}
