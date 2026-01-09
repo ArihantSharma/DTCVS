@@ -22,6 +22,15 @@ class Block:
 
         return hashlib.sha256(block_string.encode()).hexdigest()
 
+    def mine_block(self, difficulty):
+        target = "0" * difficulty
+
+        while self.hash[:difficulty] != target:
+            self.nonce += 1
+            self.hash = self.calculate_hash()
+
+        print(f"Block {self.index} mined with hash: {self.hash}")
+
 def create_genesis_block():
     return Block(
         index=0,
