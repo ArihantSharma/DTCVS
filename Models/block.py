@@ -3,19 +3,19 @@ import time
 import hashlib
 
 class Block:
-    def __init__(self, index, timestamp, data, prev_hash):
+    def __init__(self, index, timestamp, credentials, prev_hash):
         self.index = index
         self.timestamp = timestamp
-        self.data = data
+        self.credentials = credentials
         self.prev_hash = prev_hash
         self.nonce = 0
-        self.hash = self.calculate_hash()
+        self.hash = None
 
     def calculate_hash(self):
         block_string = json.dumps({
             "index": self.index,
             "timestamp": self.timestamp,
-            "data": self.data,
+            "credentials": self.credentials,
             "prev_hash": self.prev_hash,
             "nonce": self.nonce
         }, sort_keys=True)
@@ -24,17 +24,15 @@ class Block:
 
     def mine_block(self, difficulty):
         target = "0" * difficulty
-
-        while self.hash[:difficulty] != target:
-            self.nonce += 1
+        while True:
             self.hash = self.calculate_hash()
+            if self.hash.startswith(target):
+                break
+            self.nonce += 1
 
-        print(f"Block {self.index} mined with hash: {self.hash}")
 
 def create_genesis_block():
-    return Block(
-        index=0,
-        timestamp=time.time(),
-        data="Genesis Block",
-        prev_hash="0"
-    )
+    genesis = Block(0, time.time(), [], "0")
+    genesis.mine_block(3)
+    return genesis
+
