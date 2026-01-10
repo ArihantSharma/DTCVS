@@ -1,6 +1,5 @@
-from .block import Block, create_genesis_block
+from . import Block, create_genesis_block, verify_signature, sign_data, generate_issuer_keys
 import time
-from .signatures import *
 
 class Blockchain:
     def __init__(self, difficulty=4, block_size=2):
@@ -76,6 +75,19 @@ class Blockchain:
                 return False
 
             if curr.hash[:self.difficulty] != "0" * self.difficulty:
+                return False
+
+        return True
+    
+    def is_external_chain_valid(self, chain: list[Block]):
+        for i in range(1, len(chain)):
+            curr = chain[i]
+            prev = chain[i - 1]
+
+            if curr.hash != curr.calculate_hash():
+                return False
+
+            if curr.prev_hash != prev.hash:
                 return False
 
         return True
