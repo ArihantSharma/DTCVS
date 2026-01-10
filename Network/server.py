@@ -10,8 +10,6 @@ app = FastAPI()
 
 node: Node = None
 
-
-
 def start_node(node_id: str, peers: list[str]):
     global node
 
