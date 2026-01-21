@@ -1,4 +1,5 @@
-from . import Block, create_genesis_block, verify_signature, sign_data, generate_issuer_keys
+from .block import Block, create_genesis_block
+from .signatures import verify_signature, sign_data, generate_issuer_keys
 import time
 
 class Blockchain:
