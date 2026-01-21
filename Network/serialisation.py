@@ -1,6 +1,6 @@
-from Models import Block
+from Models.block import Block
 
-def serialize_chain(chain):
+def serialize_chain(chain: list[Block]):
     return [
         {
             "index": b.index,
